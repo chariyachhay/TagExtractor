@@ -22,7 +22,6 @@ public class TagExtractorApplication extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        // Top buttons
         JPanel topPanel = new JPanel();
 
         JButton btnText = new JButton("Choose Text File");
@@ -37,16 +36,13 @@ public class TagExtractorApplication extends JFrame {
 
         add(topPanel, BorderLayout.NORTH);
 
-        // Status label
         statusLabel = new JLabel("No files selected");
         add(statusLabel, BorderLayout.SOUTH);
 
-        // Text area
         textArea = new JTextArea();
         JScrollPane scroll = new JScrollPane(textArea);
         add(scroll, BorderLayout.CENTER);
 
-        // Button actions
         btnText.addActionListener(this::chooseTextFile);
         btnStop.addActionListener(this::chooseStopFile);
         btnProcess.addActionListener(this::processFiles);
@@ -55,7 +51,6 @@ public class TagExtractorApplication extends JFrame {
 
     private void chooseTextFile(ActionEvent e) {
         JFileChooser chooser = new JFileChooser();
-
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             textFile = chooser.getSelectedFile();
             updateLabel();
@@ -64,7 +59,6 @@ public class TagExtractorApplication extends JFrame {
 
     private void chooseStopFile(ActionEvent e) {
         JFileChooser chooser = new JFileChooser();
-
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             stopFile = chooser.getSelectedFile();
             updateLabel();
@@ -88,7 +82,6 @@ public class TagExtractorApplication extends JFrame {
             processor.processFile(textFile);
 
             textArea.setText("");
-
             for (Map.Entry<String, Integer> entry : processor.getMap().entrySet()) {
                 textArea.append(entry.getKey() + " : " + entry.getValue() + "\n");
             }
@@ -100,20 +93,16 @@ public class TagExtractorApplication extends JFrame {
 
     private void saveFile(ActionEvent e) {
         JFileChooser chooser = new JFileChooser();
-
         if (chooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
             File outFile = chooser.getSelectedFile();
 
             try {
                 PrintWriter writer = new PrintWriter(outFile);
-
                 for (Map.Entry<String, Integer> entry : processor.getMap().entrySet()) {
                     writer.println(entry.getKey() + " : " + entry.getValue());
                 }
-
                 writer.close();
                 JOptionPane.showMessageDialog(this, "Saved!");
-
             } catch (IOException ex) {
                 JOptionPane.showMessageDialog(this, "Error saving.");
             }
@@ -121,8 +110,6 @@ public class TagExtractorApplication extends JFrame {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            new TagExtractorApplication().setVisible(true);
-        });
+        SwingUtilities.invokeLater(() -> new TagExtractorApplication().setVisible(true));
     }
 }
